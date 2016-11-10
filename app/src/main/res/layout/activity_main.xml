@@ -13,5 +13,11 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:text="@string/portfolio"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_centerHorizontal="true"
+        android:padding="@dimen/textview_padding"
+        android:elevation="@dimen/elevation"
+        android:textSize="@dimen/lg_ft"
+        />
 </RelativeLayout>
