@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
@@ -10,14 +11,51 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.android.semreh.MainActivity">
 
-    <TextView
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/LineTest">
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:text="@string/SymbolTextViewString"
+            android:ems="10"
+            android:id="@+id/SymbolTextView"
+            android:layout_weight="1"
+            tools:ignore="LabelFor" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:text="@string/QuoteTextViewString"
+            android:ems="10"
+            android:id="@+id/QuoteTextView"
+            android:layout_weight="1"
+            tools:ignore="LabelFor" />
+    </LinearLayout>
+
+    <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/portfolio"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        app:srcCompat="@android:drawable/alert_light_frame"
+        android:id="@+id/UpdateTextButton"
+        android:layout_below="@+id/LineTest"
         android:layout_centerHorizontal="true"
-        android:padding="@dimen/textview_padding"
-        android:elevation="@dimen/elevation"
-        android:textSize="@dimen/lg_ft"
-        />
+        android:layout_marginTop="64dp"
+        android:contentDescription="@string/UpdateButtonDescription" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/alert_dark_frame"
+        android:id="@+id/testingButton"
+        android:layout_marginTop="89dp"
+        android:layout_below="@+id/UpdateTextButton"
+        android:layout_alignStart="@+id/UpdateTextButton"
+        android:contentDescription="@string/testingButtonDescription" />
+
 </RelativeLayout>
