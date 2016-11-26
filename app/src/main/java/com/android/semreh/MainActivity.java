@@ -4,6 +4,7 @@ import yahoofinance.Stock;
 import yahoofinance.YahooFinance;
 import au.com.bytecode.opencsv.CSVReader;
 
+import android.app.Activity;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -32,16 +33,22 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class MainActivity extends ListActivity {
+public class MainActivity extends Activity {
 
-    private TextView display;
+    private TextView quoteDisplay;
     private TextView symbolDisplay;
-    private ArrayList<stockStuff> words;  //List of User's saved words
-    private ArrayAdapter<stockStuff> adapter; //binds words to ListView
+    private ArrayList<Stock> words;  //List of Stocks.
+    private ArrayAdapter<Stock> adapter; //binds Stocks to the List.  I'll have to extend the ArrayAdapter class to handle Stock class
     int stockIndex = 0;
     String next[];
     List<String> StockSymbols = new ArrayList<String>();
     int spot = 0;
+    int numStocks = 0;
+    int updateSpot = 0;
+    int ActuallyRegisteredStocks = 0;
+    int begin = 0;
+    int end = 50;
+
 
 
     @Override
@@ -49,19 +56,23 @@ public class MainActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        display = (TextView) findViewById(R.id.portfolioTextView);
-        symbolDisplay = (TextView) findViewById(R.id.symbolTextView);
+        quoteDisplay = (TextView) findViewById(R.id.QuoteTextView);
+        symbolDisplay = (TextView) findViewById(R.id.SymbolTextView);
 
-        words = new ArrayList<stockStuff>();
+        words = new ArrayList<Stock>();
 
-        adapter = new ArrayAdapter<stockStuff>(this, R.layout.list_item, words);
-        setListAdapter(adapter);
+        //adapter = new ArrayAdapter<stockStuff>(this, R.layout.list_item, words);
+        //setListAdapter(adapter);
 
         ImageButton testButton = (ImageButton) findViewById(R.id.testingButton);
-        testButton.setOnClickListener(testButtonListiner);
+        testButton.setOnClickListener(testButtonListener);
+
+        ImageButton updateButton = (ImageButton) findViewById(R.id.UpdateTextButton);
+        updateButton.setOnClickListener(updateButtonListener);
 
         try {
             CSVReader reader = new CSVReader(new InputStreamReader(getAssets().open("companylist.csv")));  //Open up that sweet stock symbol file.  It's in the assets folder.
+            next = (reader.readNext()); //Skip the first line
 
             for(;;)
             {
@@ -69,6 +80,7 @@ public class MainActivity extends ListActivity {
                 if(next != null)
                 {
                     StockSymbols.add(next[0]);
+                    numStocks++; //Keeps count of all the stocks
                 }
                 else
                 {
@@ -84,64 +96,60 @@ public class MainActivity extends ListActivity {
 
     /*
     Comrades, it seems that in order to have the adapter bind the arraylist of stockStuff objects, the adapter class will have to first be modified.
-      After working on this for a while, I kind of gave up.
+      Worked on this a while, will return
      */
-    public View.OnClickListener testButtonListiner = new View.OnClickListener()
+
+    //On click, go through the list of NASDAQ symbols.  Each symbol will get its information obtained in a Stock class (see the JavaDoc for this class).
+    //The Stock object will be stored into the list "words".  This list should have all the information in Stock objects.
+    //Currently only gets 50 stocks per click.  Yahoo Finance tracks the requests per hour and limits us to 2000 requests.  There are just above 3000 NASDAQ stocks.  :(
+    public View.OnClickListener testButtonListener = new View.OnClickListener()
     {
         @Override
-        public void onClick(View view)
-        {/*
-           try
-            {
+        public void onClick(View view) {
 
-                stockStuff newitem = new stockStuff();
-                String stockSymbol = (StockSymbols.get(stockIndex));
-                stockIndex++;
+            for (int i = begin; i < end; i++) { //Should be for the numStocks value
+                new Thread(new Runnable() {
 
-                Stock stock = YahooFinance.get(stockSymbol);
-                BigDecimal currentPrice = stock.getQuote().getPrice();
-                newitem.setCurrentPrice(currentPrice);
-                newitem.setSymbol(stockSymbol);
+                    @Override
+                    public void run() {
+                        try {
+                            String stockSymbol = (StockSymbols.get(spot));
+                            spot++;
 
-                //display.setText((newitem.getCurrentPrice()).toString());
-                symbolDisplay.setText(newitem.getSymbol());
-                addStock(newitem);
-            }
-            catch (IOException ex)
-            {
-                ex.printStackTrace();
-            }
-        */
-            Thread thread = new Thread(new Runnable() {
+                            Stock stock = YahooFinance.get(stockSymbol);
+                            words.add(stock);
+                            ActuallyRegisteredStocks++;
 
-                @Override
-                public void run() {
-                    try  {
-                        stockStuff newitem = new stockStuff();
-                        String stockSymbol = (StockSymbols.get(stockIndex));
-                        stockIndex++;
 
-                        Stock stock = YahooFinance.get(stockSymbol);
-                        BigDecimal currentPrice = stock.getQuote().getPrice();
-                        newitem.setCurrentPrice(currentPrice);
-                        newitem.setSymbol(stockSymbol);
-
-                        //display.setText((newitem.getCurrentPrice()).toString());
-                        symbolDisplay.setText(newitem.getSymbol());
-                        addStock(newitem);
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
-                }
-            });
+                }).start();
+            }
+            symbolDisplay.setText(numStocks);
+            quoteDisplay.setText(ActuallyRegisteredStocks);
+
+            //Update the indexes
+            begin+=50;
+            end+=50;
+
         }
 
     };
 
-    private void addStock(stockStuff newitem)
+    //Updates the text views with the information
+    public View.OnClickListener updateButtonListener = new View.OnClickListener()
     {
-        words.add(newitem);
-        adapter.notifyDataSetChanged();
-    }
+        @Override
+        public void onClick(View view)
+        {
+            symbolDisplay.setText((words.get(updateSpot).getSymbol()));
+            quoteDisplay.setText(words.get(updateSpot).getQuote().getPrice().toString()); //Some error about String formatting here.  BigDecimal.toString() seems to cause problems
+            updateSpot++;
+
+        }
+    };
+
 
 }
