@@ -2,8 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="1"
-    android:background="#30cbff">
+    android:weightSum="1">
 
     <TextView
         android:layout_width="163dp"
@@ -12,8 +11,7 @@
         android:text="@string/netWorthTitleTextView"
         android:id="@+id/titleTextView"
         android:layout_gravity="center_horizontal"
-        android:gravity="center_vertical|center_horizontal"
-        android:background="#ff5f28" />
+        android:gravity="center_vertical|center_horizontal" />
 
     <LinearLayout
         android:orientation="vertical"
@@ -53,8 +51,7 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="@string/cashTextView"
             android:id="@+id/cashTextView"
-            android:padding="@dimen/networthpadding1"
-            android:background="#ff5f28" />
+            android:padding="@dimen/networthpadding1" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -62,8 +59,7 @@
             android:text="New Text"
             android:id="@+id/textView2"
             android:layout_gravity="center_horizontal"
-            android:padding="@dimen/networthpadding4"
-            android:background="#fffd0d" />
+            android:padding="@dimen/networthpadding4" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -71,9 +67,7 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="@string/stockValueTextView"
             android:id="@+id/stockvalueTextView"
-            android:padding="@dimen/networthpadding2"
-            android:autoText="false"
-            android:background="#ff5f28" />
+            android:padding="@dimen/networthpadding2" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -81,8 +75,7 @@
             android:text="New Text"
             android:id="@+id/textView3"
             android:layout_gravity="center_horizontal"
-            android:padding="@dimen/networthpadding5"
-            android:background="#fffd0d" />
+            android:padding="@dimen/networthpadding5" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -90,8 +83,7 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="@string/netWorthTextView"
             android:id="@+id/netWorthTextView"
-            android:padding="@dimen/networthpadding2"
-            android:background="#ff5f28" />
+            android:padding="@dimen/networthpadding2" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -99,8 +91,7 @@
             android:text="New Text"
             android:id="@+id/textView4"
             android:layout_gravity="center_horizontal"
-            android:padding="@dimen/networthpadding6"
-            android:background="#fffd0d" />
+            android:padding="@dimen/networthpadding6" />
 
     </LinearLayout>
 

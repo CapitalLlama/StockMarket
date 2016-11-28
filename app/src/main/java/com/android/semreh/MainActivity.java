@@ -6,6 +6,7 @@ import au.com.bytecode.opencsv.CSVReader;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -39,8 +40,6 @@ import java.util.List;
 
 public class MainActivity extends Activity {
 
-    private TextView quoteDisplay;
-    private TextView symbolDisplay;
     private ArrayList<Stock> words;  //List of Stocks.
     private ArrayAdapter<Stock> adapter; //binds Stocks to the List.  I'll have to extend the ArrayAdapter class to handle Stock class
     int stockIndex = 0;
@@ -53,15 +52,13 @@ public class MainActivity extends Activity {
     int begin = 0;
     int end = 50;
 
+    int detailLocation;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        quoteDisplay = (TextView) findViewById(R.id.QuoteTextView);
-        symbolDisplay = (TextView) findViewById(R.id.SymbolTextView);
 
         words = new ArrayList<>();
 
@@ -72,28 +69,22 @@ public class MainActivity extends Activity {
         tradeButton.setOnClickListener(tradeButtonListener);
 
         Button updateButton = (Button) findViewById(R.id.portfolioButton);
-        updateButton.setOnClickListener(updateButtonListener);
+        //updateButton.setOnClickListener(updateButtonListener);
 
         try {
             CSVReader reader = new CSVReader(new InputStreamReader(getAssets().open("companylist.csv")));  //Open up that sweet stock symbol file.  It's in the assets folder.
             //next = (reader.readNext()); //Skip the first line
 
-            for(;;)
-            {
+            for (; ; ) {
                 next = (reader.readNext());
-                if(next != null)
-                {
+                if (next != null) {
                     StockSymbols.add(next[0]);
                     numStocks++; //Keeps count of all the stocks
-                }
-                else
-                {
+                } else {
                     break;
                 }
             }
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -145,37 +136,56 @@ public class MainActivity extends Activity {
     */
 
     //Go to Trade Screen
-    public View.OnClickListener tradeButtonListener = new View.OnClickListener()
-    {
+    public View.OnClickListener tradeButtonListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            startActivity(new Intent(MainActivity.this, SearchActivity.class));
-            ///setContentView(R.layout.searchmode);
-
+            startActivity(new Intent(view.getContext(), SearchActivity.class));
         }
 
     };
 
+    /*
     //Updates the text views with the information
-    public View.OnClickListener updateButtonListener = new View.OnClickListener()
-    {
+    public View.OnClickListener updateButtonListener = new View.OnClickListener() {
         @Override
-        public void onClick(View view)
-        {
+        public void onClick(View view) {
             symbolDisplay.setText((words.get(updateSpot).getSymbol()));
-            if(words.get(updateSpot).getQuote().getPrice() != null)
+            if (words.get(updateSpot).getQuote().getPrice() != null)
                 quoteDisplay.setText(words.get(updateSpot).getQuote().getPrice().toString());
             else
                 quoteDisplay.setText("Error");
 
             updateSpot++;
 
-            if(updateSpot >= words.size()){
+            if (updateSpot >= words.size()) {
                 updateSpot = 0;
             }
-
         }
     };
+    */
 
+    public static String getSymbol(int i) {
+        return StockSymbols.get(i);
+    }
+
+    public static void getPrice(final String s) {
+        DetailActivity.setStockPrice(-1.0);
+        new Thread(new Runnable() {
+            double d = -1.337;
+            Stock stock;
+            @Override
+            public void run() {
+                try {
+                    stock = YahooFinance.get(s);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                DetailActivity.setStockPrice(stock.getQuote().getPrice().doubleValue());
+            }
+
+        }).start();
+    }
 
 }
+

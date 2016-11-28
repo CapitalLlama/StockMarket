@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#30cbff">
+    android:layout_height="match_parent">
 
     <TextView
         android:layout_width="96dp"
@@ -11,58 +11,76 @@
         android:text="@string/tradeTextView"
         android:id="@+id/tradeTextView"
         android:layout_gravity="center_horizontal"
-        android:gravity="center_vertical|center_horizontal"
-        android:background="#ff5f28" />
+        android:gravity="center_vertical|center_horizontal" />
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:weightSum="1"
-        android:background="#30cbff">
+        android:weightSum="100">
 
         <LinearLayout
             android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_alignTop="@+id/linearLayout"
             android:layout_toEndOf="@+id/linearLayout"
-            android:layout_gravity="right">
+            android:layout_gravity="right"
+            android:layout_weight="75">
 
             <Button
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:text="@string/searchButton"
-                android:id="@+id/button" />
-
-            <Button
-                android:layout_width="80dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/portfolioButton"
-                android:id="@+id/button2" />
+                android:id="@+id/portfolioButton"
+                android:textSize="12sp" />
 
             <Button
-                android:layout_width="80dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/portfolioButton"
+                android:id="@+id/button2"
+                android:textSize="12sp" />
+
+            <Button
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/netWorthButton"
-                android:id="@+id/button3" />
+                android:id="@+id/button3"
+                android:textSize="12sp" />
 
         </LinearLayout>
 
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/searchEditText"
-            android:hint="Search for a stock here"
-            android:padding="@dimen/searchmodepadding"
-            android:background="#ff5f28" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="25">
 
-        <Button
-            android:layout_width="96dp"
-            android:layout_height="37dp"
-            android:text="@string/actualsearchButton"
-            android:id="@+id/button4" />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/searchEditText"
+                android:hint="@string/searchStocksHint"
+                android:padding="@dimen/searchmodepadding"
+                android:backgroundTint="@android:color/holo_purple"
+                android:inputType="textCapCharacters"
+                android:imeOptions="actionDone"/>
+
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/@android:id/list" />
+        </LinearLayout>
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/empty_list_item"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:visibility="gone">
+    </TextView>
 
 </LinearLayout>

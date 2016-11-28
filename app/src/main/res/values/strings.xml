@@ -5,7 +5,7 @@
     <string name="action_settings">Settings</string>
     <string name="introTextView">Your Stocks</string>
     <string name="tradeButton">TRADE</string>
-    <string name="portfolioButton">Your Stocks</string>
+    <string name="portfolioButton">Portfolio</string>
     <string name="netWorthButton">Net Worth</string>
     <string name="tradeTextView">Trade</string>
     <string name="actualsearchButton">Search</string>
@@ -16,10 +16,14 @@
     <string name="stockTitleTextView">Symbol of Stock</string>
     <string name="priceTextView">Price:</string>
     <string name="actualPriceTextView" />
-    <string name="buyTextView">Buy this stock:</string>
-    <string name="sellTextView">Sell this stock:</string>
+    <string name="buyTextView">Buy:</string>
+    <string name="sellTextView">Sell:</string>
     <string name="backButton">Back to Portfolio</string>
     <string name="confirmBuyButton">BUY</string>
     <string name="sellButton">SELL</string>
+
+    <string name="loading">Loading...</string>
+
+    <string name="searchStocksHint">Search Stocks</string>
 
 </resources>

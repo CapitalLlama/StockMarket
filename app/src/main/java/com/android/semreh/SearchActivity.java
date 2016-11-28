@@ -31,11 +31,6 @@ import android.widget.TextView;
 import android.text.TextWatcher;
 import android.text.Editable;
 
-
-/**
- * Created by Michael on 11/27/2016.
- */
-
 public class SearchActivity extends ListActivity {
 
     private ArrayList<String> stocksList;
@@ -43,6 +38,9 @@ public class SearchActivity extends ListActivity {
     private ArrayAdapter<String> adapter;
 
     private EditText searchEditText;
+
+    private int begin;
+    private int end;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,11 +59,17 @@ public class SearchActivity extends ListActivity {
         searchEditText = (EditText) findViewById(R.id.searchEditText);
         searchEditText.addTextChangedListener(search_EditText_Watcher);
 
+        Button portfolioButton = (Button) findViewById(R.id.portfolioButton);
+        portfolioButton.setOnClickListener(portfolioButtonListener);
+
         //listener to search for tag's query
         getListView().setOnItemClickListener(itemClickListener);
 
         // listener to edit tag
         getListView().setOnItemLongClickListener(itemLongClickListener);
+
+        //this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
     }
 
     void PopulateList(){
@@ -73,10 +77,10 @@ public class SearchActivity extends ListActivity {
         holderList.addAll(MainActivity.StockSymbols);
     }
 
-    void ChangeList(int begin, int end){
+    void ChangeList(){
         stocksList.clear();
 
-        stocksList.addAll(holderList.subList(begin, end));
+        stocksList.addAll(MainActivity.StockSymbols.subList(begin, end));
 
         if(stocksList.size() == 0)
             getListView().setEmptyView(findViewById(R.id.empty_list_item));
@@ -87,9 +91,11 @@ public class SearchActivity extends ListActivity {
     private OnItemClickListener itemClickListener = new OnItemClickListener()
     {
         @Override
-        public void onItemClick(AdapterView<?> parent, View view,
-                                int position, long id)
-        {}
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+        {
+            startActivity(new Intent(view.getContext(), DetailActivity.class));
+            DetailActivity.setStockPosition(begin, position);
+        }
     };
 
     //edits the tag/query save
@@ -103,28 +109,44 @@ public class SearchActivity extends ListActivity {
         }
     };
 
+
+    public View.OnClickListener portfolioButtonListener = new View.OnClickListener()
+    {
+        @Override
+        public void onClick(View view) {
+            startActivity(new Intent(view.getContext(), MainActivity.class));
+
+        }
+
+    };
+
     private TextWatcher search_EditText_Watcher = new TextWatcher() {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             if(s.length() > 0) {
-                int begin = 0;
-                int end = 0;
+                begin = 0;
+                end = 0;
                 char c[];
                 char v[];
-                int listSize = holderList.size();
+                int listSize = MainActivity.StockSymbols.size();
                 int charSize = s.length();
                 boolean found;
 
                 for (int i = 0; i < listSize; i++) {
-                    v = holderList.get(i).toCharArray();
+                    v = MainActivity.StockSymbols.get(i).toCharArray();
                     found = true;
                         for(int j=0; j < charSize; j++) {
                             c = s.toString().toCharArray(); //s.charAt(j);
-                            if(c[j] != v[j]){
-                                j = charSize;
-                                found = false;
-                            }
+                            if(v.length > j) {
+                                if (c[j] != v[j]) {
+                                    j = charSize;
+                                    found = false;
+                                }
+                            }else{
+                                    begin = 0;
+                                    i = listSize;
+                                }
                         }
                     if(found) {
                         begin = i;
@@ -134,14 +156,19 @@ public class SearchActivity extends ListActivity {
 
                 end = begin;
                 for (int i = begin; i < listSize; i++) {
-                    v = holderList.get(i).toCharArray();
+                    v = MainActivity.StockSymbols.get(i).toCharArray();
                     found = false;
                     for(int j=0; j < charSize; j++) {
                         c = s.toString().toCharArray();
-                        if(c[j] != v[j]){
-                            j = charSize;
-                            found = true;
-                        }
+                        if(v.length > j) {
+                            if (c[j] != v[j]) {
+                                j = charSize;
+                                found = true;
+                            }
+                        }else{
+                                end = begin;
+                                i = listSize;
+                            }
                     }
                     if(found) {
                         end = i;
@@ -150,10 +177,12 @@ public class SearchActivity extends ListActivity {
                 }
                 if(end < begin)
                     end = begin;
-                ChangeList(begin, end);
+                ChangeList();
             }
             else{
-                ChangeList(0, holderList.size());
+                begin = 0;
+                end = MainActivity.StockSymbols.size();
+                ChangeList();
             }
         }
 

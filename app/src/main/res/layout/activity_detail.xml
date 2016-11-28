@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="10"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="8">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/stockTitleTextView"
+            android:id="@+id/stockTitleTextView"
+            android:layout_gravity="center_horizontal"
+            android:padding="@dimen/stockTitleTextView"
+            android:gravity="center_vertical|center_horizontal"
+            android:layout_weight="1"
+            android:textSize="36sp"
+            android:textStyle="normal|bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:weightSum="10">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:weightSum="5"
+            android:id="@+id/priceLinearLayout">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/priceTextView"
+                android:id="@+id/priceTextView"
+                android:gravity="center_vertical|end"
+                android:layout_weight="4" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/actualPriceTextView"
+                android:id="@+id/actualPriceTextView"
+                android:layout_weight="1"
+                android:gravity="center_vertical|start" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:weightSum="5"
+            android:id="@+id/buyLinearLayout"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/buyTextView"
+                android:id="@+id/buyTextView"
+                android:layout_weight="2"
+                android:gravity="center_vertical|end" />
+
+            <EditText
+                android:layout_height="match_parent"
+                android:inputType="number"
+                android:id="@+id/buyEditText"
+                android:hint="Enter number of stocks"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:gravity="center_vertical|center_horizontal" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/confirmBuyButton"
+                android:id="@+id/confirmBuyButton"
+                android:layout_weight="2" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:weightSum="5"
+            android:id="@+id/sellLinearLayout"
+            android:gravity="center_vertical|center_horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/sellTextView"
+                android:id="@+id/sellTextView"
+                android:layout_weight="2"
+                android:gravity="center_vertical|end"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/editText"
+                android:paddingLeft="@dimen/sellEditTextleftpadding"
+                android:hint="Enter number of stocks"
+                android:layout_weight="1"
+                android:gravity="center_vertical|center_horizontal"
+                android:inputType="number" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/sellButton"
+                android:id="@+id/sellButton"
+                android:layout_weight="2"
+                android:gravity="center_vertical|center_horizontal"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="7"></LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

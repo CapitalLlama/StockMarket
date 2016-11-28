@@ -2,8 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="1"
-    android:background="#30cbff">
+    android:weightSum="1">
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -21,8 +20,7 @@
         android:id="@+id/stockTitleTextView"
         android:layout_gravity="center_horizontal"
         android:padding="@dimen/stockTitleTextView"
-        android:gravity="center_vertical|center_horizontal"
-        android:background="#ff5f28" />
+        android:gravity="center_vertical|center_horizontal" />
 
     <LinearLayout
         android:orientation="vertical"
@@ -37,8 +35,7 @@
             android:text="@string/priceTextView"
             android:id="@+id/priceTextView"
             android:padding="@dimen/stockpricepadding"
-            android:gravity="center_vertical|center_horizontal"
-            android:background="#ff5f28" />
+            android:gravity="center_vertical|center_horizontal" />
 
         <TextView
             android:layout_width="223dp"
@@ -46,8 +43,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/actualPriceTextView"
             android:id="@+id/actualPriceTextView"
-            android:layout_gravity="center_horizontal"
-            android:background="#ff5f28" />
+            android:layout_gravity="center_horizontal" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -55,8 +51,7 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="@string/buyTextView"
             android:id="@+id/buyTextView"
-            android:padding="@dimen/buypadding"
-            android:background="#ff5f28" />
+            android:padding="@dimen/buypadding" />
 
         <EditText
             android:layout_width="wrap_content"
@@ -65,8 +60,7 @@
             android:id="@+id/buyEditText"
             android:paddingLeft="@dimen/buyEditTextleftpadding"
             android:gravity="right"
-            android:hint="Enter number of stocks"
-            android:background="#ff5f28" />
+            android:hint="Enter number of stocks" />
 
         <Button
             android:layout_width="138dp"
@@ -81,8 +75,7 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="@string/sellTextView"
             android:id="@+id/sellTextView"
-            android:padding="@dimen/sellpadding"
-            android:background="#ff5f28" />
+            android:padding="@dimen/sellpadding" />
 
         <EditText
             android:layout_width="197dp"
@@ -90,8 +83,7 @@
             android:id="@+id/editText"
             android:gravity="right"
             android:paddingLeft="@dimen/sellEditTextleftpadding"
-            android:hint="Enter number of stocks"
-            android:background="#ff5f28" />
+            android:hint="Enter number of stocks" />
 
         <Button
             android:layout_width="138dp"
