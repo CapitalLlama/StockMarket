@@ -2,8 +2,21 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="textview_padding">5dp</dimen>
-    <dimen name="elevation">5dp</dimen>
-    <dimen name="lg_ft">25sp</dimen>
-    <dimen name="md_ft">20sp</dimen>
+    <dimen name="networthpadding">16dp</dimen>
+    <dimen name="networthpadding2">16dp</dimen>
+    <dimen name="networthpadding1">16dp</dimen>
+    <dimen name="networthtitlepadding">16dp</dimen>
+    <dimen name="networthpadding4">10dp</dimen>
+    <dimen name="networthpadding5">10dp</dimen>
+    <dimen name="networthpadding6">10dp</dimen>
+
+    <dimen name="searchmodepadding">16dp</dimen>
+
+    <dimen name="stockTitleTextView">8dp</dimen>
+    <dimen name="stockpricepadding">16dp</dimen>
+    <dimen name="buypadding">16dp</dimen>
+    <dimen name="buyEditTextleftpadding">10dp</dimen>
+    <dimen name="sellpadding">16dp</dimen>
+    <dimen name="sellEditTextleftpadding">10dp</dimen>
+
 </resources>

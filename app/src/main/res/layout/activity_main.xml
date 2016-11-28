@@ -1,61 +1,76 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_main"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.android.semreh.MainActivity">
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/introTextView"
+        android:id="@+id/introTextView"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:background="#ffe325" />
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/LineTest">
+        android:layout_width="285dp"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/introTextView"
+        android:id="@+id/linearLayout">
 
-        <EditText
-            android:layout_width="wrap_content"
+        <ListView
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:text="@string/SymbolTextViewString"
-            android:ems="10"
-            android:id="@+id/SymbolTextView"
-            android:layout_weight="1"
-            tools:ignore="LabelFor" />
+            android:id="@+id/stockListView"
+            android:background="#25fbff" />
 
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:text="@string/QuoteTextViewString"
-            android:ems="10"
-            android:id="@+id/QuoteTextView"
-            android:layout_weight="1"
-            tools:ignore="LabelFor" />
     </LinearLayout>
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/alert_light_frame"
-        android:id="@+id/UpdateTextButton"
-        android:layout_below="@+id/LineTest"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="64dp"
-        android:contentDescription="@string/UpdateButtonDescription" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignTop="@+id/linearLayout"
+        android:layout_toEndOf="@+id/linearLayout">
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/alert_dark_frame"
-        android:id="@+id/testingButton"
-        android:layout_marginTop="89dp"
-        android:layout_below="@+id/UpdateTextButton"
-        android:layout_alignStart="@+id/UpdateTextButton"
-        android:contentDescription="@string/testingButtonDescription" />
+        <Button
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:text="@string/tradeButton"
+            android:id="@+id/tradeButton" />
+
+        <Button
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:text="@string/portfolioButton"
+            android:id="@+id/portfolioButton" />
+
+        <Button
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:text="@string/netWorthButton"
+            android:id="@+id/netWorthButton" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:text="Quote"
+            android:ems="10"
+            android:id="@+id/QuoteTextView" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:text="Symbol"
+            android:ems="10"
+            android:id="@+id/SymbolTextView" />
+    </LinearLayout>
 
 </RelativeLayout>

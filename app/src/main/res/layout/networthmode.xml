@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <TextView
+        android:layout_width="163dp"
+        android:layout_height="44dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/netWorthTitleTextView"
+        android:id="@+id/titleTextView"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_vertical|center_horizontal" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:weightSum="1">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/linearLayout"
+            android:layout_toEndOf="@+id/linearLayout">
+
+            <Button
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:text="@string/tradeButton"
+                android:id="@+id/button5" />
+
+            <Button
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:text="@string/portfolioButton"
+                android:id="@+id/button6" />
+
+            <Button
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:text="@string/netWorthButton"
+                android:id="@+id/button7" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/cashTextView"
+            android:id="@+id/cashTextView"
+            android:padding="@dimen/networthpadding1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/textView2"
+            android:layout_gravity="center_horizontal"
+            android:padding="@dimen/networthpadding4" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/stockValueTextView"
+            android:id="@+id/stockvalueTextView"
+            android:padding="@dimen/networthpadding2" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/textView3"
+            android:layout_gravity="center_horizontal"
+            android:padding="@dimen/networthpadding5" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/netWorthTextView"
+            android:id="@+id/netWorthTextView"
+            android:padding="@dimen/networthpadding2" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/textView4"
+            android:layout_gravity="center_horizontal"
+            android:padding="@dimen/networthpadding6" />
+
+    </LinearLayout>
+
+</LinearLayout>

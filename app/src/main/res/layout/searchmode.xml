@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="96dp"
+        android:layout_height="58dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/tradeTextView"
+        android:id="@+id/tradeTextView"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_vertical|center_horizontal" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="20">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignTop="@+id/linearLayout"
+            android:layout_toEndOf="@+id/linearLayout"
+            android:layout_gravity="right"
+            android:layout_weight="1"
+            android:weightSum="1">
+
+            <Button
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:text="@string/tradeButton"
+                android:id="@+id/button" />
+
+            <Button
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:text="@string/portfolioButton"
+                android:id="@+id/button2" />
+
+            <Button
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:text="@string/netWorthButton"
+                android:id="@+id/button3" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="19">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/searchEditText"
+                android:hint="Search for a stock here"
+                android:padding="@dimen/searchmodepadding"
+                android:backgroundTint="@android:color/holo_purple"
+                android:inputType="textCapCharacters" />
+
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/@android:id/list" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/empty_list_item"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:text="No" >
+    </TextView>
+
+</LinearLayout>
