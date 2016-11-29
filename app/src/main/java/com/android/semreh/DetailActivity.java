@@ -30,6 +30,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import org.w3c.dom.Text;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
@@ -42,11 +44,13 @@ public class DetailActivity extends Activity {
 
     static DetailActivity activity;
     static int stockPosition;
-    static double stockPrice;
+    static float stockPrice;
     static String stockSymbol;
 
     private static TextView stockTitleTextView;
     private static TextView actualPriceTextView;
+
+    private EditText stockQuantity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,16 +60,58 @@ public class DetailActivity extends Activity {
         stockTitleTextView = (TextView) findViewById(R.id.stockTitleTextView);
         actualPriceTextView = (TextView) findViewById(R.id.actualPriceTextView);
 
+        stockQuantity = (EditText) findViewById(R.id.buyEditText);
+
         activity = DetailActivity.this;
+
+        Button buyButton = (Button) findViewById(R.id.confirmBuyButton);
+        buyButton.setOnClickListener(buyButtonListener);
+
 
         init();
     }
+
+    public View.OnClickListener buyButtonListener = new View.OnClickListener()
+    {
+        @Override
+        public void onClick(View view)
+        {
+            float quantaties = 0;
+            float product = 0;
+
+            if(stockQuantity.getText().toString().length() > 0) {
+                quantaties = Integer.parseInt(stockQuantity.getText().toString());  //Get quantity
+
+                product = quantaties * stockPrice;
+            }
+            else{
+                AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
+                builder.setMessage("Input Number Of Stocks To Purchase");
+                builder.setPositiveButton("Got it!", null);
+                AlertDialog initialDialog = builder.create();
+                initialDialog.show();
+            }
+
+            if(MainActivity.totalMoney >= product) //If we have the money to buy the stocks, then buy the stocks.
+            {
+                //Buy Stocks, update the total dosh, add quantity, and add total stock money, and update stock profit.
+                AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
+                builder.setMessage("You bought " + quantaties + " stocks of " + stockSymbol + "\n\nTotal Purchase: $" + product);
+                builder.setPositiveButton("Got it!", null);
+                AlertDialog initialDialog = builder.create();
+                initialDialog.show();
+
+                MainActivity.totalMoney -= product;
+                MainActivity.updateOwnedStocks(stockSymbol, quantaties, product);
+            }
+        }
+    };
 
     public static void setStockPosition(int b, int p){
         stockPosition = b + p;
     }
 
-    public static void setStockPrice(double p){
+    public static void setStockPrice(float p){
         stockPrice = p;
         updateInfo();
     }
@@ -87,7 +133,7 @@ public class DetailActivity extends Activity {
                     stockTitleTextView.setText(R.string.loading);
 
                 if(stockPrice > 0)
-                    actualPriceTextView.setText("$" + Double.toString(stockPrice));
+                    actualPriceTextView.setText("   $" + String.format(java.util.Locale.US,"%.2f", stockPrice));
                 else
                     actualPriceTextView.setText(R.string.loading);
             }

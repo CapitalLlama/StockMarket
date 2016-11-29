@@ -37,11 +37,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends Activity {
 
-    private ArrayList<Stock> words;  //List of Stocks.
-    private ArrayAdapter<Stock> adapter; //binds Stocks to the List.  I'll have to extend the ArrayAdapter class to handle Stock class
+    private static HashMap<String, ArrayList<Float>> ownedStocks;  //List of Stocks.
+    private ArrayAdapter<HashMap<String, ArrayList<Float>>> adapter; //binds Stocks to the List.  I'll have to extend the ArrayAdapter class to handle Stock class
+
+    //private static HashMap<String, ArrayList<Float>> ownedStocks;  //List of Stocks.
+    //private ArrayAdapter<HashMap<String, ArrayList<Float>>> adapter; //binds Stocks to the List.  I'll have to extend the ArrayAdapter class to handle Stock class
+
     int stockIndex = 0;
     String next[];
     public static List<String> StockSymbols = new ArrayList<String>();
@@ -54,13 +60,75 @@ public class MainActivity extends Activity {
 
     int detailLocation;
 
+    public static float totalMoney = 0;
+
+    private static final String MYSTOCKS = "myStocks";  //List of stocks you own
+    private static final String STOCKQUANTITY = "stockQuantity";  //List of the number of stocks you own
+    private static final String STOCKTOTALS = "stockTotals";  //List of the total money you spent on certain stocks
+    private static final String MONEY = "money";  //A single variable representing your money.
+    //private static final String USED = "used";
+    private static final String FIRST_TIME_USED_KEY = "first_time_used_key";
+
+    private SharedPreferences myStocks;  //Since myStocks only has the symbols of stocks you own, create an array adapter and bind it to the list view in portfolio
+    private SharedPreferences stockQuantity;//Holds keys=symbols and values=quantity of stocks you own
+    private SharedPreferences stockTotals; //key=symbol value=total spent on that stock
+    public SharedPreferences money;  //Hold total money, assets, networth, profit,
+    private SharedPreferences mPrefs; //Experimental method of getting an alertDialog/other UI to appear only once to set the money to 10k.
+    private SharedPreferences.Editor mPrefsEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        words = new ArrayList<>();
+        //ArrayList<float[]> something = new ArrayList<float[]>();
+        //something.add(new float[]{5,2});
+
+        ownedStocks = new HashMap<String, ArrayList<Float>>();
+
+        //adapter = new ArrayAdapter<HashMap<String, ArrayList<Float>>>(this, R.layout.stocklist_item, ownedStocks);
+
+        //ownedStocks.put("Nooo",something);
+
+
+
+        myStocks = getSharedPreferences(MYSTOCKS, MODE_PRIVATE);
+        stockQuantity = getSharedPreferences(STOCKQUANTITY, MODE_PRIVATE);
+        stockTotals = getSharedPreferences(STOCKTOTALS, MODE_PRIVATE);
+        money = getSharedPreferences(MONEY, MODE_PRIVATE);
+
+        getSharedPreferences(MYSTOCKS, 0).edit().clear().apply();
+        getSharedPreferences(STOCKQUANTITY, 0).edit().clear().apply();
+        getSharedPreferences(STOCKTOTALS, 0).edit().clear().apply();
+        getSharedPreferences(MONEY, 0).edit().clear().apply();
+        getSharedPreferences(FIRST_TIME_USED_KEY, 0).edit().clear().apply();
+
+        totalMoney = money.getFloat("money", 0);
+
+
+
+        mPrefs = getSharedPreferences(FIRST_TIME_USED_KEY, MODE_PRIVATE);
+        boolean ifUsedOnce = mPrefs.getBoolean(FIRST_TIME_USED_KEY, false); //Retrieve the firsttimeusedkey, it's default is false if the key doesn't exist
+        if(ifUsedOnce == true)
+        {}
+        else //Build an alertDialog indicating free money and give the user free money
+        {
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setMessage("Congratulations!!!\n You have received 10,000 dollars to invest in the stock market");
+            builder.setPositiveButton("Got it!", null);
+            AlertDialog initialDialog = builder.create();
+            initialDialog.show();
+
+
+            money.edit().putFloat("TotalMoney", 10000);
+            money.edit().commit();
+
+            totalMoney = 10000;
+
+            mPrefsEditor = mPrefs.edit();
+            mPrefsEditor.putBoolean(FIRST_TIME_USED_KEY, true);
+            mPrefsEditor.apply(); //I realise commit() will take priority over apply()
+        }
 
         //adapter = new ArrayAdapter<stockStuff>(this, R.layout.list_item, words);
         //setListAdapter(adapter);
@@ -97,12 +165,13 @@ public class MainActivity extends Activity {
     //On click, go through the list of NASDAQ symbols.  Each symbol will get its information obtained in a Stock class (see the JavaDoc for this class).
     //The Stock object will be stored into the list "words".  This list should have all the information in Stock objects.
     //Currently only gets 50 stocks per click.  Yahoo Finance tracks the requests per hour and limits us to 2000 requests.  There are just above 3000 NASDAQ stocks.  :(
-    /*
+
     public View.OnClickListener testButtonListener = new View.OnClickListener()
     {
         @Override
         public void onClick(View view) {
 
+            /*
             for (int i = begin; i < end; i++) { //Should be for the numStocks value
                 new Thread(new Runnable() {
 
@@ -129,11 +198,12 @@ public class MainActivity extends Activity {
             //Update the indexes
             begin+=50;
             end+=50;
+            */
 
         }
 
     };
-    */
+
 
     //Go to Trade Screen
     public View.OnClickListener tradeButtonListener = new View.OnClickListener() {
@@ -169,7 +239,7 @@ public class MainActivity extends Activity {
     }
 
     public static void getPrice(final String s) {
-        DetailActivity.setStockPrice(-1.0);
+        DetailActivity.setStockPrice(-1);
         new Thread(new Runnable() {
             double d = -1.337;
             Stock stock;
@@ -181,11 +251,36 @@ public class MainActivity extends Activity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                DetailActivity.setStockPrice(stock.getQuote().getPrice().doubleValue());
+                DetailActivity.setStockPrice(stock.getQuote().getPrice().floatValue());
             }
 
         }).start();
     }
 
+    public static int updateOwnedStocks(String s, float q, float p){
+        if(ownedStocks.containsKey(s)){
+            ArrayList<Float> ownedList = ownedStocks.get(s);
+            float ownedQ = ownedList.get(0);
+            float ownedP = ownedList.get(1);
+
+            ownedQ += q;
+            ownedP += p;
+
+            ownedList = new ArrayList<Float>();
+            ownedList.add(ownedQ);
+            ownedList.add(ownedP);
+
+            ownedStocks.put(s,ownedList);
+        }
+        else{
+            ArrayList<Float> ownedList = new ArrayList<Float>();
+            ownedList.add(q);
+            ownedList.add(p);
+
+            ownedStocks.put(s,ownedList);
+        }
+
+        return 1;
+    }
 }
 
