@@ -38,13 +38,6 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/portfolioButton"
-                android:id="@+id/button2"
-                android:textSize="12sp" />
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:text="@string/netWorthButton"
                 android:id="@+id/button3"
                 android:textSize="12sp" />
