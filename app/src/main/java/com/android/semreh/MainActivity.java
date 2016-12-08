@@ -24,9 +24,12 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Button;
+import android.widget.ListView;
+import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,11 +42,18 @@ import java.util.Collections;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+
+import android.widget.AbsListView;
+import android.view.Menu;
+import android.view.MenuItem;
 
 public class MainActivity extends Activity {
 
     private static HashMap<String, ArrayList<Float>> ownedStocks;  //List of Stocks.
-    private ArrayAdapter<HashMap<String, ArrayList<Float>>> adapter; //binds Stocks to the List.  I'll have to extend the ArrayAdapter class to handle Stock class
+
+
+
 
     //private static HashMap<String, ArrayList<Float>> ownedStocks;  //List of Stocks.
     //private ArrayAdapter<HashMap<String, ArrayList<Float>>> adapter; //binds Stocks to the List.  I'll have to extend the ArrayAdapter class to handle Stock class
@@ -69,17 +79,40 @@ public class MainActivity extends Activity {
     //private static final String USED = "used";
     private static final String FIRST_TIME_USED_KEY = "first_time_used_key";
 
-    private SharedPreferences myStocks;  //Since myStocks only has the symbols of stocks you own, create an array adapter and bind it to the list view in portfolio
+    public SharedPreferences myStocks;  //Since myStocks only has the symbols of stocks you own, create an array adapter and bind it to the list view in portfolio
     private SharedPreferences stockQuantity;//Holds keys=symbols and values=quantity of stocks you own
     private SharedPreferences stockTotals; //key=symbol value=total spent on that stock
     public SharedPreferences money;  //Hold total money, assets, networth, profit,
     private SharedPreferences mPrefs; //Experimental method of getting an alertDialog/other UI to appear only once to set the money to 10k.
     private SharedPreferences.Editor mPrefsEditor;
 
+    //New Max section
+    private ArrayList<String> coolSymbols;
+    private ArrayAdapter<String> adapter;
+
+
+
+    public coolAdapter maxAdapts;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         //ArrayList<float[]> something = new ArrayList<float[]>();
         //something.add(new float[]{5,2});
@@ -89,19 +122,53 @@ public class MainActivity extends Activity {
         //adapter = new ArrayAdapter<HashMap<String, ArrayList<Float>>>(this, R.layout.stocklist_item, ownedStocks);
 
         //ownedStocks.put("Nooo",something);
-
-
-
         myStocks = getSharedPreferences(MYSTOCKS, MODE_PRIVATE);
+
+        coolSymbols = new ArrayList<String>(myStocks.getAll().keySet());//The coolSymbols array should have all the coolSymbols we collected
+        adapter = new ArrayAdapter<String>(this, R.layout.list_item, coolSymbols);
+
+        ListView list = (ListView) findViewById(R.id.stockListView);
+        list.setAdapter(adapter);
+
+
+
+
+
+
+
+
+
+
+
+
+        /*
+
+        coolAdapter maxAdapts = new coolAdapter(ownedStocks);
+
+        list.setAdapter(maxAdapts);
+
+        Another solution to the adapter issue?
+        ArrayList<String> maxArray = new ArrayList<String>();
+
+        Set<String> coolSet = ownedStocks.keySet();
+
+        maxArray.addAll(coolSet);
+        //maxArray = coolSet.toArray(new String[coolSet.size()]);
+
+        ListAdapter maxList = new ArrayAdapter<String>(this, R.layout.list_item, maxArray);
+        list.setAdapter(maxList);
+        */
+
+        //myStocks = getSharedPreferences(MYSTOCKS, MODE_PRIVATE);
         stockQuantity = getSharedPreferences(STOCKQUANTITY, MODE_PRIVATE);
         stockTotals = getSharedPreferences(STOCKTOTALS, MODE_PRIVATE);
         money = getSharedPreferences(MONEY, MODE_PRIVATE);
 
-        getSharedPreferences(MYSTOCKS, 0).edit().clear().apply();
+        //getSharedPreferences(MYSTOCKS, 0).edit().clear().apply();
         getSharedPreferences(STOCKQUANTITY, 0).edit().clear().apply();
         getSharedPreferences(STOCKTOTALS, 0).edit().clear().apply();
         getSharedPreferences(MONEY, 0).edit().clear().apply();
-        getSharedPreferences(FIRST_TIME_USED_KEY, 0).edit().clear().apply();
+        //getSharedPreferences(FIRST_TIME_USED_KEY, 0).edit().clear().apply();
 
         totalMoney = money.getFloat("money", 0);
 
@@ -136,8 +203,8 @@ public class MainActivity extends Activity {
         Button tradeButton = (Button) findViewById(R.id.tradeButton);
         tradeButton.setOnClickListener(tradeButtonListener);
 
-        Button updateButton = (Button) findViewById(R.id.portfolioButton);
-        //updateButton.setOnClickListener(updateButtonListener);
+        Button netWorthButton = (Button) findViewById(R.id.netWorthButton);
+        netWorthButton.setOnClickListener(netWorthButtonListener);
 
         try {
             CSVReader reader = new CSVReader(new InputStreamReader(getAssets().open("companylist.csv")));  //Open up that sweet stock symbol file.  It's in the assets folder.
@@ -170,6 +237,8 @@ public class MainActivity extends Activity {
     {
         @Override
         public void onClick(View view) {
+
+
 
             /*
             for (int i = begin; i < end; i++) { //Should be for the numStocks value
@@ -204,6 +273,12 @@ public class MainActivity extends Activity {
 
     };
 
+    public View.OnClickListener netWorthButtonListener = new View.OnClickListener(){
+        @Override
+        public void onClick(View view) {
+            maxAdapts.notifyDataSetChanged();
+        }
+    };
 
     //Go to Trade Screen
     public View.OnClickListener tradeButtonListener = new View.OnClickListener() {
@@ -280,7 +355,26 @@ public class MainActivity extends Activity {
             ownedStocks.put(s,ownedList);
         }
 
+        updateStuff(ownedStocks);
+
         return 1;
     }
+
+    private void updateStuff(HashMap<String, ArrayList<Float>> BigDog)
+    {
+        Set<String> SymbolsOnly = BigDog.keySet();
+        ArrayList<String> Henry = new ArrayList<String>();
+        Henry.addAll(SymbolsOnly);  //This is now a list of all the Strings so far.
+
+        for(int i = 0; i < Henry.size(); i++)
+        {
+            if(!myStocks.contains(Henry.get(i)))
+            {
+                myStocks.edit().putString(Henry.get(i), Henry.get(i));  //This is the part where we would have added the new symbol to the sharedPref file.  But we can't because of static interference.
+            }
+        }
+
+    }
+
 }
 
