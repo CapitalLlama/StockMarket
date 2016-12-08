@@ -104,6 +104,13 @@ public class DetailActivity extends Activity {
                 MainActivity.totalMoney -= product;
                 MainActivity.updateOwnedStocks(stockSymbol, quantaties, product);
             }
+            else{ //User didn't have enought money, create and display an AlertDialog box
+                AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
+                builder.setMessage("You currently have " + MainActivity.totalMoney + "\n" + "You can't afford the amount of " + product + "\n" + ":(");
+                builder.setPositiveButton("Got it", null);
+                AlertDialog initialDialog = builder.create();
+                initialDialog.show();
+            }
         }
     };
 
